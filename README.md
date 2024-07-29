@@ -16,10 +16,9 @@ SneakFit is an e-commerce platform designed to provide personalized sneaker reco
 
 ## Features
 
-- **Personalized Recommendations**: AI-driven recommendations based on user preferences and historical data.
 - **Dynamic Product Listings**: Interactive and up-to-date product listings.
 - **User Authentication**: Secure login and account management.
-- **Search Functionality**: Advanced search with filtering options.
+- **Search Functionality**: Advanced search with filtering options using a content filtering algorithm to recommend products.
 - **Responsive Design**: Mobile-friendly and responsive UI.
 
 ## Installation
