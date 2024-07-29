@@ -1,4 +1,4 @@
-# SneakFit - AI-Based Sneaker Recommendation System
+# SneakFit - AI-Based Sneaker Recommendation System using Content Filtering
 
 SneakFit is an e-commerce platform designed to provide personalized sneaker recommendations using AI algorithms. The system integrates a recommendation engine with a web application that includes a frontend for user interaction and a backend for managing data and processing requests.
 
