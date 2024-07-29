@@ -31,7 +31,6 @@ To get started with SneakFit, follow these steps to set up your local developmen
 - [Node.js](https://nodejs.org/) (for frontend)
 - [Java](https://www.oracle.com/java/technologies/javase-downloads.html) (for backend)
 - [Maven](https://maven.apache.org/) (for backend)
-- [MongoDB](https://www.mongodb.com/) (for database)
 - [Python](https://www.python.org/) (for AI model)
 - [MySQL](https://dev.mysql.com/downloads/) (for relational database)
 
