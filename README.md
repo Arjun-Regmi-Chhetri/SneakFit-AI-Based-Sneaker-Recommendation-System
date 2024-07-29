@@ -10,9 +10,8 @@ SneakFit is an e-commerce platform designed to provide personalized sneaker reco
 - [Configuration](#configuration)
 - [Backend Setup](#backend-setup)
 - [Frontend Setup](#frontend-setup)
-- [AI Model Setup](#ai-model-setup)
 - [MySQL Setup](#mysql-setup)
-- [Contributing](#contributing)
+
 - [License](#license)
 
 ## Features
@@ -56,6 +55,35 @@ cd SneakFit-AI-Based-Sneaker-Recommendation-System
   cd frontend
   npm install
 ```
+
+## mysql-setup
+
+### Prerequisites
+
+- MySQL Server
+- MySQL Workbench
+
+### Steps
+
+1. **Open MySQL Workbench.**
+2. **Create a new database:**
+    ```sql
+    CREATE DATABASE sneakfit;
+    ```
+
+### Configure database access
+Update the src/main/resources/application.properties file in the backend directory with your MySQL connection details:
+```sh
+spring.datasource.url=url (example: jdbc:mysql://localhost:3306/sneakfit)
+spring.datasource.username= username (example: root)
+spring.datasource.password=your_password
+spring.jpa.hibernate.ddl-auto=update
+
+```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 
 
