@@ -71,7 +71,8 @@ cd SneakFit-AI-Based-Sneaker-Recommendation-System
     CREATE DATABASE sneakfit;
     ```
 
-### Configure database access
+### configuration
+**Configure your Database: **
 Update the src/main/resources/application.properties file in the backend directory with your MySQL connection details:
 ```sh
 spring.datasource.url=url (example: jdbc:mysql://localhost:3306/sneakfit)
