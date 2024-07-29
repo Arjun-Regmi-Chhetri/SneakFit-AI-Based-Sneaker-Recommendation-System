@@ -1,0 +1,101 @@
+package com.sneakfit.backend.service;
+
+
+import com.sneakfit.backend.dtos.CartDto;
+import com.sneakfit.backend.dtos.CartItemDto;
+import com.sneakfit.backend.model.Cart;
+import com.sneakfit.backend.model.CartItem;
+import com.sneakfit.backend.model.Product;
+import com.sneakfit.backend.model.User;
+import com.sneakfit.backend.repository.CartItemRepository;
+import com.sneakfit.backend.repository.CartRepository;
+import com.sneakfit.backend.repository.ProductRepository;
+import com.sneakfit.backend.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class CartService {
+
+    private final CartRepository cartRepository;
+
+    private final CartItemRepository cartItemRepository;
+
+    private final ProductRepository productRepository;
+
+    private final UserRepository userRepository;
+
+
+
+    public Optional<CartDto> getCartByUserId(String userId) {
+        Optional<Cart> cartOptional = cartRepository.findByUserId(userId);
+        return cartOptional.map(this::convertToCartDTO);
+    }
+
+    public Optional<CartDto> addToCart(String userId, String productId, int quantity) {
+        Optional<Cart> cartOptional = cartRepository.findByUserId(userId);
+        Cart cart;
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
+
+        if (cartOptional.isPresent()) {
+            cart = cartOptional.get();
+        } else {
+            cart = new Cart();
+            cart.setUser(user);
+            cartRepository.save(cart);
+        }
+
+        Optional<Product> productOptional = productRepository.findById(productId);
+
+        if (productOptional.isPresent()) {
+            Product product = productOptional.get();
+            CartItem cartItem = new CartItem();
+            cartItem.setProduct(product);
+            cartItem.setQuantity(quantity);
+            cartItem.setTotalPrice(product.getPrice().multiply(BigDecimal.valueOf(quantity))); // Calculate total price
+            cartItem.setCart(cart);
+            cart.getCartItems().add(cartItem);
+            cartItemRepository.save(cartItem);
+        }
+
+        cartRepository.save(cart);
+        return Optional.of(convertToCartDTO(cart));
+    }
+
+    private CartDto convertToCartDTO(Cart cart) {
+        List<CartItemDto> cartItemDTOs = cart.getCartItems().stream()
+                .map(this::convertToCartItemDTO)
+                .collect(Collectors.toList());
+
+        return CartDto.builder()
+                .id(cart.getCartId())
+                .userId(cart.getUser().getId())
+                .cartItemDtos(cartItemDTOs)
+                .createdDate(cart.getCreatedDate())
+                .build();
+    }
+
+    private CartItemDto convertToCartItemDTO(CartItem cartItem) {
+        return CartItemDto.builder()
+                .id(cartItem.getCartItemId())
+                .productId(cartItem.getProduct().getProductId())
+                .productName(cartItem.getProduct().getProductName())
+                .quantity(cartItem.getQuantity())
+                .totalPrice(cartItem.getTotalPrice()) // Use total price here
+                .addedDate(cartItem.getAddedDate())
+                .build();
+    }
+
+
+
+
+}

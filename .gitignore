@@ -1,0 +1,63 @@
+# Node and frontend specific
+frontend/node_modules/
+frontend/build/
+frontend/dist/
+frontend/.eslintrc.cjs
+frontend/package-lock.json
+frontend/yarn-error.log
+frontend/.env
+
+# Java and Spring Boot specific
+backend/target/
+backend/.mvn/
+backend/mvnw
+backend/mvnw.cmd
+backend/.env
+backend/database.sql
+
+# Model and Jupyter Notebooks
+model/.ipynb_checkpoints/
+model/.virtual_documents
+model/sneakfi
+model/sneakfit.db
+model/sneakfit
+
+# IDE and Editor specific
+.idea/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+.vscode/
+
+# OS specific
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+*.log.*
+
+# Temporary files
+*.tmp
+*.temp
+
+# Binary files
+*.exe
+*.dll
+*.so
+*.dylib
+*.lib
+
+# Python specific
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# General system files
+*.swp
+*.swo

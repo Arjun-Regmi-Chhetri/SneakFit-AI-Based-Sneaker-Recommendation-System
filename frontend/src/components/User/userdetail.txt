@@ -1,0 +1,143 @@
+import React, { useEffect, useState } from "react";
+import { getUserDetails, updateUserDetails } from "../../service/Service";
+import { useAuth } from "../../context/AuthContext";
+import NoFile from "../../assets/user/nofile.png";
+
+const UserDetail = () => {
+  const [user, setUser] = useState(null);
+  const [error, setError] = useState(null);
+  const { isAuthenticated } = useAuth();
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [updateCount, setUpdateCount] = useState(0); // State to force refresh
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      try {
+        const userData = await getUserDetails();
+        setUser(userData);
+        setSelectedImage(userData.userImage ? `/src/assets/user/${userData.userImage}` : null);
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+
+    if (isAuthenticated) {
+      fetchUserDetails();
+    }
+  }, [isAuthenticated, updateCount]); // Include updateCount in dependencies
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedImage(URL.createObjectURL(file));
+      setSelectedFile(file);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const updatedUser = await updateUserDetails({
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        phone: user.phone,
+        address: user.address,
+        userImage: selectedFile || user.userImage,
+      });
+
+      setUser(updatedUser);
+      if (selectedFile) {
+        setSelectedImage(URL.createObjectURL(selectedFile));
+      }
+      alert("User details updated successfully!");
+      setUpdateCount(prevCount => prevCount + 1); // Increment updateCount to force refresh
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div className="w-9/12">
+      <div className="profile">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold">Public Profile</h2>
+          <p className="my-2">Add Information About Yourself</p>
+        </div>
+        <form onSubmit={handleSubmit}>
+          <h2>Basics:</h2>
+          <div className="mb-3 flex flex-col">
+            <input
+              type="text"
+              value={user.firstName}
+              onChange={(e) => setUser({ ...user, firstName: e.target.value })}
+              className="border border-gray-900 px-7 py-4"
+            />
+          </div>
+          <div className="mb-3 flex flex-col">
+            <input
+              type="text"
+              value={user.lastName}
+              onChange={(e) => setUser({ ...user, lastName: e.target.value })}
+              className="border border-gray-900 px-7 py-4"
+            />
+          </div>
+          <div className="mb-3 flex flex-col">
+            <input
+              type="text"
+              value={user.email}
+              onChange={(e) => setUser({ ...user, email: e.target.value })}
+              className="border border-gray-900 px-7 py-4"
+            />
+          </div>
+          <div className="mb-3 flex flex-col">
+            <input
+              type="text"
+              placeholder="+977 - 980000000"
+              value={user.phone}
+              onChange={(e) => setUser({ ...user, phone: e.target.value })}
+              className="border border-gray-900 px-7 py-4"
+            />
+          </div>
+          <div className="mb-3 flex flex-col">
+            <input
+              type="text"
+              placeholder="Enter Your Address Here"
+              value={user.address}
+              onChange={(e) => setUser({ ...user, address: e.target.value })}
+              className="border border-gray-900 px-7 py-4"
+            />
+          </div>
+          <div className="mb-3 px-7 py-3 flex flex-col border border-gray-900">
+            <label htmlFor="">Image Preview</label>
+            <img
+              src={selectedImage || (user.userImage ? `/src/assets/user/${user.userImage}` : NoFile)}
+              alt="Preview"
+              className="w-full h-60 object-contain border border-gray-900"
+            />
+            <label htmlFor="">Add / Change Image</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className=""
+            />
+          </div>
+          <button className="bg-blue-500 py-2 px-4 text-white rounded-md hover:bg-blue-600 w-1/2 my-3" type="submit">Update</button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default UserDetail;

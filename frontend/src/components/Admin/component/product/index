@@ -1,0 +1,43 @@
+ <td className="px-4 py-3">
+                
+                      {product.discountPrice ? (
+                        <p>
+                          $. {product.discountPrice.toFixed(2)} <br />
+                          <span className="line-through text-sm text-gray-400">$. {product.price.toFixed(2)}</span>
+                        </p>
+                      ) : (
+                        <p>$. {product.price.toFixed(2)} </p>
+                      )}
+                    
+                  </td>
+
+                  <td className="px-4 py-3">
+                    {product.productCategory.categoryName}
+                  </td>
+                  <td className="px-4 py-3">
+                    {product.productBrand.brandName}
+                  </td>
+                  <td className="px-4 py-3">
+                    <img
+                      src={
+                        product.productImage
+                          ? `/src/assets/brand/${product.productImage}`
+                          : nofile
+                      }
+                      alt=""
+                      className="h-10"
+                    />
+                  </td>
+                  <td className="px-4 py-3">
+                    {product.productColor.colorName}
+                  </td>
+                  <td className="px-4 py-3">{product.productSize.sizeName}</td>
+                  <td className="px-4 py-3">
+                    {`${
+                      product.productDescription
+                        ? product.productDescription.length > 10
+                          ? `${product.productDescription.slice(0, 10)}...`
+                          : product.productDescription
+                        : "No description available"
+                    }`}
+                  </td>
