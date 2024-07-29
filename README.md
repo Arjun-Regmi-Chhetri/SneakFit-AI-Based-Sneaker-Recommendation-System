@@ -41,3 +41,23 @@ To get started with SneakFit, follow these steps to set up your local developmen
 ```sh
 git clone https://github.com/Arjun-Regmi-Chhetri/SneakFit-AI-Based-Sneaker-Recommendation-System.git
 cd SneakFit-AI-Based-Sneaker-Recommendation-System
+```
+
+
+### Backend Setup
+
+```sh
+ cd backend
+ mvn install
+```
+
+### Frontend Setup
+```sh
+  cd frontend
+  npm install
+```
+
+
+
+
+
